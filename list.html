@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Angular待办事项列表小操作</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <style>
+        .top-wrap {
+            padding: 30px 0 20px;
+        }
+
+        .table>tbody>tr>td {
+            height: 32px;
+            line-height: 32px;
+        }
+
+        .sortable-ghost {
+            opacity: 0.4;
+            background-color: #F4E2C9 !important;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        .tdHead {
+            cursor: pointer;
+            text-align: center;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .cross-out{
+            background-color: rgba(223, 223, 223, 0.56);
+            color: #acacac;
+        }
+
+        .cross-out .btn{
+            background-color: #eee;
+            border-color: #eee;
+            color: #acacac;
+            pointer-events: none;
+        }
+
+        .container .txt{
+            padding: 15px;
+            color: #666;
+            font-size: 13px;
+            margin-bottom:10px;
+            -webkit-border-radius: 4px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body ng-app="listApp" ng-controller="listController">
+
+    <div class="container">
+        <h2 class="text-center">待办事项小列表</h2>
+
+        <div class="top-wrap clearfix">
+            <div class="form-group pull-left" style="width:100%;">
+                <input type="text" ng-model="searchInfo" class="form-control center-block" placeholder="请输入要搜索的待办事项内容" style="width:50%;" />
+            </div>
+            <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#dialogBox" ng-click="showDialog(-1)">新增事项</button>
+        </div>
+
+        <p class="bg-info txt">可进行上下拖动排序</p>
+
+        <div class="table-responsive">
+            <table class="table table-hover text-center">
+                <thead>
+                    <tr>
+                        <td>是否完成</td>
+                        <td>序号</td>
+                        <td>清单内容</td>
+                        <td class="tdHead" ng-click="toggle='time'; desc = !desc">
+                            创建时间
+                            <span class="glyphicon glyphicon-arrow-up" ng-if="desc"></span>
+                            <span class="glyphicon glyphicon-arrow-down" ng-if="!desc"></span>
+                        </td>
+                        <td>操作</td>
+                    </tr>
+                </thead>
+                <tbody ng-sortable="table.sortItemConfig">
+                    <tr ng-repeat="item in items | filter: searchInfo | orderBy : toggle : desc" ng-class="{true: 'cross-out', false: ''}[isSuccess]">
+                        <td><input type="checkbox" ng-model="isSuccess" /></td>
+                        <td>{{$index + 1}}</td>
+                        <td class="text-left">{{item.content}}</td>
+                        <td>{{item.time}}</td>
+                        <td>
+                            <button class="btn btn-info">
+                                <span class="glyphicon glyphicon-edit" data-toggle="modal" data-target="#dialogBox" ng-click="showDialog($index)"></span>
+                            </button>
+                            <button class="btn btn-danger js-remove">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="modal fade" id="dialogBox" role="dialog">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">待办事项内容</h4>
+                </div>
+                <div class="modal-body">
+                    <textarea class="form-control" cols="10" rows="6" id="writerContent" ng-model="writerContent"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" ng-click="courseWriteFn()" ng-disabled="isSubmit">确定</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+    <script src="js/angular.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/Sortable.min.js"></script>
+    <script src="js/ng-sortable.js"></script>
+    <script src="js/list.js"></script>
+</body>
+
+</html>
