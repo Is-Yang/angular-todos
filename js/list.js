@@ -62,6 +62,9 @@ app.controller('listController', ['$scope', function ($scope) {
         })
 
         if (judge === -1) { //新增
+            
+            // 先清空，以免修改时留下了数据
+            $scope.writerContent = "";
            
             // 确定提交
             $scope.courseWriteFn = function () {
