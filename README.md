@@ -11,5 +11,16 @@
   > 注意：如果要将拖动排序后的数据存到数据库时，最好不要使用orderBy过滤器。如果按照事件点击反选排序后的数据存到数据库时，需编写一个点击事件，
   将排序的方式作为参数传递个后台。
   
+  > 踩坑：动态获取数据遍历，使用orderBy过滤器控制台报错 
+  `Error: [orderBy:notarray] http://errors.angularjs.org/1.6.5/orderBy/notarray?p0=%7B%7D`；
+  
+  ``` javascript
+    // 解决方法使用$filter('orderBy')过滤器， student表示数据中需要排序的属性名 例如：
+    $scope.tbOrgDetail = [];
+    course_manage.getCourseBySubjectID(id, function(result) {
+        $scope.tbOrgDetail = $filter('orderBy')(result.data, 'student') ;
+    });
+  ```
+  
   项目演示：
   ![Alt text](./demo.gif)
