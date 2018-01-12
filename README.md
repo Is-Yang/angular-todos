@@ -15,7 +15,7 @@
   `Error: [orderBy:notarray] http://errors.angularjs.org/1.6.5/orderBy/notarray?p0=%7B%7D`；
   
   ``` javascript
-    // 解决方法使用$filter('orderBy')过滤器， student表示数据中需要排序的属性名 例如：
+   // 解决方法使用$filter('orderBy')过滤器， student表示数据中需要排序的属性名 例如：
     $scope.tbOrgDetail = [];
     course_manage.getCourseBySubjectID(id, function(result) {
         $scope.tbOrgDetail = $filter('orderBy')(result.data, 'student') ;
